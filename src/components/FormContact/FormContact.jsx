@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import './formContact.module.css';
 
 export class FormContact extends Component {
@@ -20,25 +22,11 @@ export class FormContact extends Component {
     });
   }
 
-  hasName(name) {
-    const contacts = this.props.contacts;
-    if (
-      contacts.some(
-        contact => contact.name.toLowerCase() === name.toLowerCase()
-      )
-    ) {
-      alert('This contact name already exists!');
-      return true;
-    }
-    return false;
-  }
-
   handleSubmit = e => {
     const name = e.target.name.value;
     const number = e.target.number.value;
     e.preventDefault();
-    
-    if (this.hasName(name)) return;
+
     this.props.addContact(name, number);
     this.resetForm();
   };
@@ -79,3 +67,7 @@ export class FormContact extends Component {
 }
 
 export default FormContact;
+
+FormContact.propTypes = {
+  addContact: PropTypes.func.isRequired,
+};

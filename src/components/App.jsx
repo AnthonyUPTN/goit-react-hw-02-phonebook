@@ -21,16 +21,25 @@ export class App extends Component {
   filterContacts() {
     const { filter, contacts } = this.state;
     if (filter) {
-      return [
-        ...contacts.filter(contact =>
-          contact.name.toLowerCase().includes(filter.toLowerCase())
-        ),
-      ];
+      const filtered = contacts.filter(contact =>
+        contact.name.toLowerCase().includes(filter.toLowerCase())
+      );
+      return filtered;
     }
     return contacts;
   }
 
   addContact = (name, number) => {
+    const { contacts } = this.state;
+    if (
+      contacts.some(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      alert(`${name} is already in contacts`);
+      return;
+    }
+
     this.setState(prev => ({
       contacts: [
         ...prev.contacts,
@@ -58,7 +67,7 @@ export class App extends Component {
     return (
       <>
         <Section title={'Phonebook'}>
-          <FormContact contacts={contacts} addContact={this.addContact} />
+          <FormContact addContact={this.addContact} />
         </Section>
         <Section title={'Contacts'}>
           {contacts.length ? (
